@@ -73,7 +73,9 @@ async function executeCommand(ssh: node_ssh, command: string) {
         console.log(chunk.toString("utf8"));
       },
       onStderr(chunk) {
-        console.log(chunk.toString("utf8"));
+        console.error(`⚠️ An error happened executing command ${command}.`, chunk.toString("utf8"));
+        core.setFailed(err.message);
+        process.abort();
       }
     });
 
